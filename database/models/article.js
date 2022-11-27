@@ -3,6 +3,30 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
+    static associate({ User, Tag, Comment }) {
+      // Users
+      this.belongsTo(User, { foreignKey: "userId", as: "author" });
+
+      // Comments
+      this.hasMany(Comment, { foreignKey: "articleId", onDelete: "cascade" });
+
+      // Tag list
+      this.belongsToMany(Tag, {
+        through: "TagList",
+        as: "tagList",
+        foreignKey: "articleId",
+        timestamps: false,
+        onDelete: "cascade", // FIXME: delete tags
+      });
+
+      // Favorites
+      this.belongsToMany(User, {
+        through: "Favorites",
+        foreignKey: "articleId",
+        timestamps: false,
+      });
+    }
+
     toJSON() {
       return {
         ...this.get(),

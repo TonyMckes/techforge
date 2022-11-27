@@ -3,6 +3,15 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
+    static associate({ Article }) {
+      // Tag list
+      this.belongsToMany(Article, {
+        through: "TagList",
+        foreignKey: "tagName",
+        timestamps: false,
+      });
+    }
+
     toJSON() {
       return {
         ...this.get(),

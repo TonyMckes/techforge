@@ -3,6 +3,12 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Comment extends Model {
+    static associate({ User, Article }) {
+      // Comments
+      this.belongsTo(Article, { foreignKey: "articleId" });
+      this.belongsTo(User, { as: "author", foreignKey: "userId" });
+    }
+
     toJSON() {
       return {
         ...this.get(),
