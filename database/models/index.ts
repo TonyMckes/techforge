@@ -21,7 +21,7 @@ if (config.use_env_variable) {
 }
 
 const Article = ArticleModel(sequelize);
-const Comment = CommentModel(sequelize, DataTypes);
+const Comment = CommentModel(sequelize);
 const Tag = TagModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
 
