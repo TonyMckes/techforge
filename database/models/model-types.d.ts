@@ -18,3 +18,8 @@ interface CommentAssociates {
 interface TagAssociates {
   Article: Article;
 }
+interface UserAssociates {
+  Article: Article;
+  Comment: Comment;
+  User: User;
+}
