@@ -33,4 +33,5 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+export type SequelizeConnection = typeof sequelize;
 export { Article, Comment, Tag, User, sequelize, Sequelize };
