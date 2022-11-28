@@ -1,9 +1,14 @@
-"use strict";
-const { Model } = require("sequelize");
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
+import { ConnectionInstance, TagAssociates } from "./model-types";
 
-module.exports = (sequelize, DataTypes) => {
-  class Tag extends Model {
-    static associate({ Article }) {
+const tagModel = (sequelize: ConnectionInstance) => {
+  class Tag extends Model<InferAttributes<Tag>, InferCreationAttributes<Tag>> {
+    static associate({ Article }: TagAssociates) {
       // Tag list
       this.belongsToMany(Article, {
         through: "TagList",
@@ -39,3 +44,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return Tag;
 };
+
+export default tagModel;

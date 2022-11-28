@@ -22,7 +22,7 @@ if (config.use_env_variable) {
 
 const Article = ArticleModel(sequelize);
 const Comment = CommentModel(sequelize);
-const Tag = TagModel(sequelize, DataTypes);
+const Tag = TagModel(sequelize);
 const User = UserModel(sequelize, DataTypes);
 
 const db: { [key: string]: any } = { Article, Comment, Tag, User };
