@@ -1,9 +1,22 @@
-"use strict";
-const { Model } = require("sequelize");
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
+import type { ArticleAssociates, ConnectionInstance } from "./model-types";
 
-module.exports = (sequelize, DataTypes) => {
-  class Article extends Model {
-    static associate({ User, Tag, Comment }) {
+const articleModel = (sequelize: ConnectionInstance) => {
+  class Article extends Model<
+    InferAttributes<Article>,
+    InferCreationAttributes<Article>
+  > {
+    declare slug: string;
+    declare title: string;
+    declare description: string;
+    declare body: string;
+
+    static associate({ User, Tag, Comment }: ArticleAssociates) {
       // Users
       this.belongsTo(User, { foreignKey: "userId", as: "author" });
 
@@ -51,3 +64,5 @@ module.exports = (sequelize, DataTypes) => {
 
   return Article;
 };
+
+export default articleModel;

@@ -20,7 +20,7 @@ if (config.use_env_variable) {
   );
 }
 
-const Article = ArticleModel(sequelize, DataTypes);
+const Article = ArticleModel(sequelize);
 const Comment = CommentModel(sequelize, DataTypes);
 const Tag = TagModel(sequelize, DataTypes);
 const User = UserModel(sequelize, DataTypes);
