@@ -1,5 +1,7 @@
 import {
+  CreationOptional,
   DataTypes,
+  ForeignKey,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -12,6 +14,9 @@ export class Comment extends Model<
   > {
   declare id?: CreationOptional<number>;
   declare body: string;
+
+  declare articleId: ForeignKey<Article["id"]>;
+  declare userId: ForeignKey<User["id"]>;
 
   static associate({ Article, User }: AssociatesTypes) {
       // Comments
