@@ -1,5 +1,7 @@
 import {
+  CreationOptional,
   DataTypes,
+  ForeignKey,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -17,9 +19,15 @@ export class Article extends Model<
     InferCreationAttributes<Article>
   > {
   declare body: string;
+  declare createdAt?: CreationOptional<Date>;
   declare description: string;
+  declare id?: CreationOptional<number>;
     declare slug: string;
     declare title: string;
+  declare updatedAt?: CreationOptional<Date>;
+
+  declare userId: ForeignKey<User["id"]>;
+
 
 
   static associate({ User, Tag, Comment }: AssociatesTypes) {
