@@ -1,5 +1,6 @@
 import {
   DataTypes,
+  ForeignKey,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -11,6 +12,8 @@ export class Tag extends Model<
   InferCreationAttributes<Tag>
 > {
   declare name: string;
+
+  declare articleId: ForeignKey<Article["id"]>;
 
   static associate({ Article }: AssociatesTypes) {
       // Tag list
