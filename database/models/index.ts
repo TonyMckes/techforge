@@ -1,9 +1,9 @@
 import { env as _env } from "process";
-import { DataTypes, Sequelize } from "sequelize";
-import ArticleModel from "./article";
-import CommentModel from "./comment";
-import TagModel from "./tag";
-import UserModel from "./user";
+import { Sequelize } from "sequelize";
+import ArticleModel, { Article } from "./article";
+import CommentModel, { Comment } from "./comment";
+import TagModel, { Tag } from "./tag";
+import UserModel, { User } from "./user";
 const env = _env.NODE_ENV || "development";
 const config = require("../config/config")[env];
 
@@ -20,10 +20,10 @@ if (config.use_env_variable) {
   );
 }
 
-const Article = ArticleModel(sequelize);
-const Comment = CommentModel(sequelize);
-const Tag = TagModel(sequelize);
-const User = UserModel(sequelize);
+ArticleModel(sequelize);
+CommentModel(sequelize);
+TagModel(sequelize);
+UserModel(sequelize);
 
 const db: { [key: string]: any } = { Article, Comment, Tag, User };
 
@@ -33,5 +33,11 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-export type SequelizeConnection = typeof sequelize;
 export { Article, Comment, Tag, User, sequelize, Sequelize };
+export type ConnectionInstance = typeof sequelize;
+export interface AssociatesTypes {
+  Article: typeof Article;
+  Comment: typeof Comment;
+  Tag: typeof Tag;
+  User: typeof User;
+}

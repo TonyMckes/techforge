@@ -4,19 +4,25 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import type { ArticleAssociates, ConnectionInstance } from "./model-types";
+import type {
+  AssociatesTypes,
+  Comment,
+  ConnectionInstance,
+  Tag,
+  User,
+} from ".";
 
-const articleModel = (sequelize: ConnectionInstance) => {
-  class Article extends Model<
+export class Article extends Model<
     InferAttributes<Article>,
     InferCreationAttributes<Article>
   > {
+  declare body: string;
+  declare description: string;
     declare slug: string;
     declare title: string;
-    declare description: string;
-    declare body: string;
 
-    static associate({ User, Tag, Comment }: ArticleAssociates) {
+
+  static associate({ User, Tag, Comment }: AssociatesTypes) {
       // Users
       this.belongsTo(User, { foreignKey: "userId", as: "author" });
 
@@ -49,12 +55,13 @@ const articleModel = (sequelize: ConnectionInstance) => {
     }
   }
 
+const articleModel = (sequelize: ConnectionInstance) => {
   Article.init(
     {
+      body: DataTypes.TEXT,
+      description: DataTypes.TEXT,
       slug: DataTypes.STRING,
       title: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      body: DataTypes.TEXT,
     },
     {
       sequelize,

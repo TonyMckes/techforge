@@ -4,11 +4,15 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import { ConnectionInstance, TagAssociates } from "./model-types";
+import type { Article, AssociatesTypes, ConnectionInstance } from ".";
 
-const tagModel = (sequelize: ConnectionInstance) => {
-  class Tag extends Model<InferAttributes<Tag>, InferCreationAttributes<Tag>> {
-    static associate({ Article }: TagAssociates) {
+export class Tag extends Model<
+  InferAttributes<Tag>,
+  InferCreationAttributes<Tag>
+> {
+  declare name: string;
+
+  static associate({ Article }: AssociatesTypes) {
       // Tag list
       this.belongsToMany(Article, {
         through: "TagList",
@@ -27,6 +31,7 @@ const tagModel = (sequelize: ConnectionInstance) => {
     }
   }
 
+const tagModel = (sequelize: ConnectionInstance) => {
   Tag.init(
     {
       name: {

@@ -1,19 +1,24 @@
-"use strict";
 import {
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import { ConnectionInstance, UserAssociates } from "./model-types";
+import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
 
-const userModel = (sequelize: ConnectionInstance) => {
-  class User extends Model<
+export class User extends Model<
     InferAttributes<User>,
     InferCreationAttributes<User>
   > {
-    static associate({ Article, Comment, User }: UserAssociates) {
-      // Articles
+  declare id?: CreationOptional<number>;
+  declare email: string;
+  declare username: string;
+  declare bio: string;
+  declare image: string;
+  declare password: string;
+
+  static associate({ Article, Comment, User }: AssociatesTypes) {
+    // Article
       this.hasMany(Article, { foreignKey: "userId", onDelete: "CASCADE" });
 
       // Comments
@@ -53,6 +58,7 @@ const userModel = (sequelize: ConnectionInstance) => {
     }
   }
 
+const userModel = (sequelize: ConnectionInstance) => {
   User.init(
     {
       email: DataTypes.STRING,

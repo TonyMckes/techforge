@@ -4,14 +4,16 @@ import {
   InferCreationAttributes,
   Model,
 } from "sequelize";
-import { CommentAssociates, ConnectionInstance } from "./model-types";
+import { Article, AssociatesTypes, ConnectionInstance, User } from ".";
 
-const commentModel = (sequelize: ConnectionInstance) => {
-  class Comment extends Model<
+export class Comment extends Model<
     InferAttributes<Comment>,
     InferCreationAttributes<Comment>
   > {
-    static associate({ Article, User }: CommentAssociates) {
+  declare id?: CreationOptional<number>;
+  declare body: string;
+
+  static associate({ Article, User }: AssociatesTypes) {
       // Comments
       this.belongsTo(Article, { foreignKey: "articleId" });
       this.belongsTo(User, { as: "author", foreignKey: "userId" });
@@ -26,6 +28,7 @@ const commentModel = (sequelize: ConnectionInstance) => {
     }
   }
 
+const commentModel = (sequelize: ConnectionInstance) => {
   Comment.init(
     {
       id: {
