@@ -2,6 +2,9 @@ import {
   CreationOptional,
   DataTypes,
   ForeignKey,
+  HasOneCreateAssociationMixin,
+  HasOneGetAssociationMixin,
+  HasOneSetAssociationMixin,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -18,6 +21,15 @@ export class Comment extends Model<
   declare articleId: ForeignKey<Article["id"]>;
   declare userId: ForeignKey<User["id"]>;
 
+  // Article
+  declare createArticle: HasOneCreateAssociationMixin<Article>;
+  declare getArticle: HasOneGetAssociationMixin<Article>;
+  declare setArticle: HasOneSetAssociationMixin<Article, number>;
+
+  // Author
+  declare createAuthor: HasOneCreateAssociationMixin<User>;
+  declare getAuthor: HasOneGetAssociationMixin<User>;
+  declare setAuthor: HasOneSetAssociationMixin<User, number>;
   static associate({ Article, User }: AssociatesTypes) {
     // Article
     this.belongsTo(Article, {
