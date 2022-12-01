@@ -14,6 +14,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from "sequelize";
 import type { Article, AssociatesTypes, ConnectionInstance } from ".";
 
