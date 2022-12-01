@@ -1,6 +1,16 @@
 import {
   CreationOptional,
   DataTypes,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManySetAssociationsMixin,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -17,6 +27,71 @@ export class User extends Model<
   declare bio: string;
   declare image: string;
   declare password: string;
+
+  // Article
+  declare addArticle: HasManyAddAssociationMixin<Article, number>;
+  declare createArticle: HasManyCreateAssociationMixin<Article, "userId">;
+  declare hasArticle: HasManyHasAssociationMixin<Article, number>;
+  declare removeArticle: HasManyRemoveAssociationMixin<Article, number>;
+
+  declare addArticles: HasManyAddAssociationsMixin<Article, number>;
+  declare countArticles: HasManyCountAssociationsMixin;
+  declare getArticles: HasManyGetAssociationsMixin<Article>;
+  declare hasArticles: HasManyHasAssociationsMixin<Article, number>;
+  declare removeArticles: HasManyRemoveAssociationsMixin<Article, number>;
+  declare setArticles: HasManySetAssociationsMixin<Article, number>;
+
+  // Comment
+  declare addComment: HasManyAddAssociationMixin<Comment, number>;
+  declare createComment: HasManyCreateAssociationMixin<Comment, "articleId">;
+  declare hasComment: HasManyHasAssociationMixin<Comment, number>;
+  declare removeComment: HasManyRemoveAssociationMixin<Comment, number>;
+
+  declare addComments: HasManyAddAssociationsMixin<Comment, number>;
+  declare countComments: HasManyCountAssociationsMixin;
+  declare getComments: HasManyGetAssociationsMixin<Comment>;
+  declare hasComments: HasManyHasAssociationsMixin<Comment, number>;
+  declare removeComments: HasManyRemoveAssociationsMixin<Comment, number>;
+  declare setComments: HasManySetAssociationsMixin<Comment, number>;
+
+  // Favorites
+  declare addFavorite: HasManyAddAssociationMixin<Article, number>;
+  declare createFavorite: HasManyCreateAssociationMixin<Article, "userId">;
+  declare hasFavorite: HasManyHasAssociationMixin<Article, number>;
+  declare removeFavorite: HasManyRemoveAssociationMixin<Article, number>;
+
+  declare addFavorites: HasManyAddAssociationsMixin<Article, number>;
+  declare countFavorites: HasManyCountAssociationsMixin;
+  declare getFavorites: HasManyGetAssociationsMixin<Article>;
+  declare hasFavorites: HasManyHasAssociationsMixin<Article, number>;
+  declare removeFavorites: HasManyRemoveAssociationsMixin<Article, number>;
+  declare setFavorites: HasManySetAssociationsMixin<Article, number>;
+
+  // Followers
+  declare addFollower: HasManyAddAssociationMixin<User, number>;
+  declare createFollower: HasManyCreateAssociationMixin<User, "id">;
+  declare hasFollower: HasManyHasAssociationMixin<User, number>;
+  declare removeFollower: HasManyRemoveAssociationMixin<User, number>;
+
+  declare addFollowers: HasManyAddAssociationsMixin<User, number>;
+  declare countFollowers: HasManyCountAssociationsMixin;
+  declare getFollowers: HasManyGetAssociationsMixin<User>;
+  declare hasFollowers: HasManyHasAssociationsMixin<User, number>;
+  declare removeFollowers: HasManyRemoveAssociationsMixin<User, number>;
+  declare setFollowers: HasManySetAssociationsMixin<User, number>;
+
+  // Followings
+  declare addFollowing: HasManyAddAssociationMixin<User, number>;
+  declare createFollowing: HasManyCreateAssociationMixin<User, "id">;
+  declare hasFollowing: HasManyHasAssociationMixin<User, number>;
+  declare removeFollowing: HasManyRemoveAssociationMixin<User, number>;
+  //
+  declare addFollowings: HasManyAddAssociationsMixin<User, number>;
+  declare countFollowings: HasManyCountAssociationsMixin;
+  declare getFollowings: HasManyGetAssociationsMixin<User>;
+  declare hasFollowings: HasManyHasAssociationsMixin<User, number>;
+  declare removeFollowings: HasManyRemoveAssociationsMixin<User, number>;
+  declare setFollowings: HasManySetAssociationsMixin<User, number>;
 
   static associate({ Article, Comment, User }: AssociatesTypes) {
     // Article
