@@ -1,4 +1,5 @@
 import {
+  Association,
   CreationOptional,
   DataTypes,
   HasManyAddAssociationMixin,
@@ -18,8 +19,8 @@ import {
 import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
 
 export class User extends Model<
-    InferAttributes<User>,
-    InferCreationAttributes<User>
+  InferAttributes<User, { omit: "followersCount" | "following" }>,
+  InferCreationAttributes<User, { omit: "followersCount" | "following" }>
   > {
   declare id?: CreationOptional<number>;
   declare email: string;
@@ -127,6 +128,14 @@ export class User extends Model<
         timestamps: false,
       });
     }
+
+  declare static associations: {
+    articles: Association<User, Article>;
+    comments: Association<User, Comment>;
+    favorites: Association<User, Article>;
+    followers: Association<User, User>;
+    following: Association<User, User>;
+  };
 
     toJSON() {
       return {
