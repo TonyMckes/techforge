@@ -2,6 +2,19 @@ import {
   CreationOptional,
   DataTypes,
   ForeignKey,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManySetAssociationsMixin,
+  HasOneCreateAssociationMixin,
+  HasOneGetAssociationMixin,
+  HasOneSetAssociationMixin,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -26,8 +39,49 @@ export class Article extends Model<
     declare title: string;
   declare updatedAt?: CreationOptional<Date>;
 
-  declare userId: ForeignKey<User["id"]>;
+  // Authors
+  declare createAuthor: HasOneCreateAssociationMixin<User>;
+  declare getAuthor: HasOneGetAssociationMixin<User>;
+  declare setAuthor: HasOneSetAssociationMixin<User, number>;
 
+  // Comments
+  declare addComment: HasManyAddAssociationMixin<Comment, number>;
+  declare createComment: HasManyCreateAssociationMixin<Comment, "articleId">;
+  declare hasComment: HasManyHasAssociationMixin<Comment, number>;
+  declare removeComment: HasManyRemoveAssociationMixin<Comment, number>;
+
+  declare addComments: HasManyAddAssociationsMixin<Comment, number>;
+  declare countComments: HasManyCountAssociationsMixin;
+  declare getComments: HasManyGetAssociationsMixin<Comment>;
+  declare hasComments: HasManyHasAssociationsMixin<Comment, number>;
+  declare removeComments: HasManyRemoveAssociationsMixin<Comment, number>;
+  declare setComments: HasManySetAssociationsMixin<Comment, number>;
+
+  // Tags
+  declare addTag: HasManyAddAssociationMixin<Tag, string>;
+  declare createTag: HasManyCreateAssociationMixin<Tag, "articleId">;
+  declare hasTag: HasManyHasAssociationMixin<Tag, string>;
+  declare removeTag: HasManyRemoveAssociationMixin<Tag, string>;
+
+  declare addTagList: HasManyAddAssociationsMixin<Tag, string>;
+  declare countTagList: HasManyCountAssociationsMixin;
+  declare getTagList: HasManyGetAssociationsMixin<Tag>;
+  declare hasTagList: HasManyHasAssociationsMixin<Tag, string>;
+  declare removeTagList: HasManyRemoveAssociationsMixin<Tag, string>;
+  declare setTagList: HasManySetAssociationsMixin<Tag, string>;
+
+  // Favorites
+  declare addFavorite: HasManyAddAssociationMixin<User, number>;
+  declare createFavorite: HasManyCreateAssociationMixin<User, "articleId">;
+  declare hasFavorite: HasManyHasAssociationMixin<User, number>;
+  declare removeFavorite: HasManyRemoveAssociationMixin<User, number>;
+
+  declare addFavorites: HasManyAddAssociationsMixin<User, number>;
+  declare countFavorites: HasManyCountAssociationsMixin;
+  declare getFavorites: HasManyGetAssociationsMixin<User>;
+  declare hasFavorites: HasManyHasAssociationsMixin<User, number>;
+  declare removeFavorites: HasManyRemoveAssociationsMixin<User, number>;
+  declare setFavorites: HasManySetAssociationsMixin<User, number>;
 
 
   static associate({ User, Tag, Comment }: AssociatesTypes) {
