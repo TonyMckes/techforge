@@ -24,13 +24,8 @@ export class Tag extends Model<
       });
     }
 
-    toJSON() {
-      return {
-        ...this.get(),
-        id: undefined,
-        userId: undefined,
-        TagList: undefined,
-      };
+  toJSON(): NonAttribute<string> {
+    return this.name;
     }
   }
 

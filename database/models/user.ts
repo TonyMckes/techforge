@@ -56,10 +56,11 @@ export class User extends Model<
     toJSON() {
       return {
         ...this.get(),
+      createdAt: undefined,
+      following: false,
         id: undefined,
         password: undefined,
         updatedAt: undefined,
-        createdAt: undefined,
       };
     }
   }
