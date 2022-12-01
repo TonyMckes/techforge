@@ -15,6 +15,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from "sequelize";
 import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
 
@@ -22,12 +23,16 @@ export class User extends Model<
   InferAttributes<User, { omit: "followersCount" | "following" }>,
   InferCreationAttributes<User, { omit: "followersCount" | "following" }>
   > {
-  declare id?: CreationOptional<number>;
-  declare email: string;
-  declare username: string;
   declare bio: string;
+  declare createdAt?: CreationOptional<Date>;
+  declare email: string;
+  declare followersCount?: NonAttribute<number>;
+  declare following?: NonAttribute<boolean>;
+  declare id?: CreationOptional<number>;
   declare image: string;
   declare password: string;
+  declare updatedAt?: CreationOptional<Date>;
+  declare username: string;
 
   // Article
   declare addArticle: HasManyAddAssociationMixin<Article, number>;

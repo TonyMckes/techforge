@@ -19,6 +19,7 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
+  NonAttribute,
 } from "sequelize";
 import type {
   AssociatesTypes,
@@ -38,13 +39,18 @@ export class Article extends Model<
     { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
   >
   > {
+  declare author?: NonAttribute<User>;
   declare body: string;
   declare createdAt?: CreationOptional<Date>;
   declare description: string;
+  declare favorited?: NonAttribute<boolean>;
+  declare favoritesCount?: NonAttribute<number>;
   declare id?: CreationOptional<number>;
     declare slug: string;
+  declare tagList?: NonAttribute<string[] | Tag[]>;
     declare title: string;
   declare updatedAt?: CreationOptional<Date>;
+  declare userId?: ForeignKey<User["id"]>;
 
   // Authors
   declare createAuthor: HasOneCreateAssociationMixin<User>;
