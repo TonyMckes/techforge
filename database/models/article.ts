@@ -31,25 +31,30 @@ export class Article extends Model<
 
 
   static associate({ User, Tag, Comment }: AssociatesTypes) {
-      // Users
-      this.belongsTo(User, { foreignKey: "userId", as: "author" });
+    // Authors
+    this.belongsTo(User, { as: "author", foreignKey: "userId" });
 
       // Comments
-      this.hasMany(Comment, { foreignKey: "articleId", onDelete: "cascade" });
+    this.hasMany(Comment, {
+      as: { plural: "comments", singular: "comment" },
+      foreignKey: "articleId",
+      onDelete: "cascade",
+    });
 
       // Tag list
       this.belongsToMany(Tag, {
-        through: "TagList",
-        as: "tagList",
+      as: { plural: "tagList", singular: "tag" },
         foreignKey: "articleId",
-        timestamps: false,
         onDelete: "cascade", // FIXME: delete tags
+      through: "TagList",
+      timestamps: false,
       });
 
       // Favorites
       this.belongsToMany(User, {
-        through: "Favorites",
+      as: { plural: "favorites", singular: "favorite" },
         foreignKey: "articleId",
+      through: "Favorites",
         timestamps: false,
       });
     }

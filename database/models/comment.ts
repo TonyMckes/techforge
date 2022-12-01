@@ -19,9 +19,17 @@ export class Comment extends Model<
   declare userId: ForeignKey<User["id"]>;
 
   static associate({ Article, User }: AssociatesTypes) {
-      // Comments
-      this.belongsTo(Article, { foreignKey: "articleId" });
-      this.belongsTo(User, { as: "author", foreignKey: "userId" });
+    // Article
+    this.belongsTo(Article, {
+      as: "article",
+      foreignKey: "articleId",
+    });
+
+    // Author
+    this.belongsTo(User, {
+      as: "author",
+      foreignKey: "userId",
+    });
     }
 
     toJSON() {

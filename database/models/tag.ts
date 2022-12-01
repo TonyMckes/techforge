@@ -16,10 +16,10 @@ export class Tag extends Model<
   declare articleId: ForeignKey<Article["id"]>;
 
   static associate({ Article }: AssociatesTypes) {
-      // Tag list
       this.belongsToMany(Article, {
-        through: "TagList",
+      as: { plural: "articles", singular: "article" },
         foreignKey: "tagName",
+      through: "TagList",
         timestamps: false,
       });
     }

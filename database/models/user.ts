@@ -20,10 +20,15 @@ export class User extends Model<
 
   static associate({ Article, Comment, User }: AssociatesTypes) {
     // Article
-      this.hasMany(Article, { foreignKey: "userId", onDelete: "CASCADE" });
+    this.hasMany(Article, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
 
       // Comments
-      this.hasMany(Comment, { foreignKey: "articleId" });
+    this.hasMany(Comment, {
+      foreignKey: "articleId",
+    });
 
       // Favorites
       this.belongsToMany(Article, {
@@ -36,13 +41,13 @@ export class User extends Model<
       // Followers
       this.belongsToMany(User, {
         through: "Followers",
-        as: "followers",
+      as: { singular: "follower", plural: "followers" },
         foreignKey: "userId",
         timestamps: false,
       });
       this.belongsToMany(User, {
         through: "Followers",
-        as: "following",
+      as: { singular: "following", plural: "followings" },
         foreignKey: "followerId",
         timestamps: false,
       });
