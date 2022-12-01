@@ -1,6 +1,16 @@
 import {
   DataTypes,
   ForeignKey,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManySetAssociationsMixin,
   InferAttributes,
   InferCreationAttributes,
   Model,
@@ -14,6 +24,19 @@ export class Tag extends Model<
   declare name: string;
 
   declare articleId: ForeignKey<Article["id"]>;
+
+  // Article
+  declare addArticle: HasManyAddAssociationMixin<Article, number>;
+  declare createArticle: HasManyCreateAssociationMixin<Article, "id">;
+  declare hasArticle: HasManyHasAssociationMixin<Article, number>;
+  declare removeArticle: HasManyRemoveAssociationMixin<Article, number>;
+
+  declare addArticles: HasManyAddAssociationsMixin<Article, number>;
+  declare countArticles: HasManyCountAssociationsMixin;
+  declare getArticles: HasManyGetAssociationsMixin<Article>;
+  declare hasArticles: HasManyHasAssociationsMixin<Article, number>;
+  declare removeArticles: HasManyRemoveAssociationsMixin<Article, number>;
+  declare setArticles: HasManySetAssociationsMixin<Article, number>;
 
   static associate({ Article }: AssociatesTypes) {
       this.belongsToMany(Article, {
