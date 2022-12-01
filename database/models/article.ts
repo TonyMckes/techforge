@@ -85,7 +85,7 @@ export class Article extends Model<
 
   // Favorites
   declare addFavorite: HasManyAddAssociationMixin<User, number>;
-  declare createFavorite: HasManyCreateAssociationMixin<User, "articleId">;
+  declare createFavorite: HasManyCreateAssociationMixin<User, "id">;
   declare hasFavorite: HasManyHasAssociationMixin<User, number>;
   declare removeFavorite: HasManyRemoveAssociationMixin<User, number>;
 
