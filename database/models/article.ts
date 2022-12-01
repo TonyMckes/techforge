@@ -1,4 +1,5 @@
 import {
+  Association,
   CreationOptional,
   DataTypes,
   ForeignKey,
@@ -28,8 +29,14 @@ import type {
 } from ".";
 
 export class Article extends Model<
-    InferAttributes<Article>,
-    InferCreationAttributes<Article>
+  InferAttributes<
+    Article,
+    { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
+  >,
+  InferCreationAttributes<
+    Article,
+    { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
+  >
   > {
   declare body: string;
   declare createdAt?: CreationOptional<Date>;
@@ -83,6 +90,12 @@ export class Article extends Model<
   declare removeFavorites: HasManyRemoveAssociationsMixin<User, number>;
   declare setFavorites: HasManySetAssociationsMixin<User, number>;
 
+  declare static associations: {
+    author: Association<Article, User>;
+    comments: Association<Article, Comment>;
+    favorites: Association<Article, User>;
+    tagList: Association<Article, Tag>;
+  };
 
   static associate({ User, Tag, Comment }: AssociatesTypes) {
     // Authors
