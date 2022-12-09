@@ -20,9 +20,9 @@ describe("service: register new user", () => {
     },
   };
 
-  const findUserAndDelete = async ({ username }: typeof newUserMock) => {
+  const findUserAndDelete = async ({ email }: typeof newUserMock) => {
     const userInDb = await User.findOne({
-      where: { username },
+      where: { email },
     });
 
     if (!userInDb) return;
