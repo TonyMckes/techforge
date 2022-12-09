@@ -22,16 +22,16 @@ import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
 export class User extends Model<
   InferAttributes<User, { omit: "followersCount" | "following" }>,
   InferCreationAttributes<User, { omit: "followersCount" | "following" }>
-  > {
-  declare bio: string;
-  declare createdAt?: CreationOptional<Date>;
+> {
+  declare bio: string | null;
+  declare createdAt: CreationOptional<Date>;
   declare email: string;
   declare followersCount?: NonAttribute<number>;
   declare following?: NonAttribute<boolean>;
-  declare id?: CreationOptional<number>;
-  declare image: string;
+  declare id: CreationOptional<number>;
+  declare image: string | null;
   declare password: string;
-  declare updatedAt?: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
   declare username: string;
 
   // Article
@@ -106,33 +106,33 @@ export class User extends Model<
       onDelete: "CASCADE",
     });
 
-      // Comments
+    // Comments
     this.hasMany(Comment, {
       foreignKey: "articleId",
     });
 
-      // Favorites
-      this.belongsToMany(Article, {
-        through: "Favorites",
-        as: "favorites",
-        foreignKey: "userId",
-        timestamps: false,
-      });
+    // Favorites
+    this.belongsToMany(Article, {
+      through: "Favorites",
+      as: "favorites",
+      foreignKey: "userId",
+      timestamps: false,
+    });
 
-      // Followers
-      this.belongsToMany(User, {
-        through: "Followers",
+    // Followers
+    this.belongsToMany(User, {
+      through: "Followers",
       as: { singular: "follower", plural: "followers" },
-        foreignKey: "userId",
-        timestamps: false,
-      });
-      this.belongsToMany(User, {
-        through: "Followers",
+      foreignKey: "userId",
+      timestamps: false,
+    });
+    this.belongsToMany(User, {
+      through: "Followers",
       as: { singular: "following", plural: "followings" },
-        foreignKey: "followerId",
-        timestamps: false,
-      });
-    }
+      foreignKey: "followerId",
+      timestamps: false,
+    });
+  }
 
   declare static associations: {
     articles: Association<User, Article>;
@@ -142,26 +142,29 @@ export class User extends Model<
     following: Association<User, User>;
   };
 
-    toJSON() {
-      return {
-        ...this.get(),
+  toJSON() {
+    return {
+      ...this.get(),
       createdAt: undefined,
       following: false,
-        id: undefined,
-        password: undefined,
-        updatedAt: undefined,
-      };
-    }
+      id: undefined,
+      password: undefined,
+      updatedAt: undefined,
+    };
   }
+}
 
 const userModel = (sequelize: ConnectionInstance) => {
   User.init(
     {
+      bio: { type: DataTypes.TEXT, allowNull: true },
+      createdAt: DataTypes.DATE,
       email: DataTypes.STRING,
-      username: DataTypes.STRING,
-      bio: DataTypes.TEXT,
-      image: DataTypes.TEXT,
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      image: { type: DataTypes.TEXT, allowNull: true },
       password: DataTypes.STRING,
+      updatedAt: DataTypes.DATE,
+      username: DataTypes.STRING,
     },
     {
       sequelize,
