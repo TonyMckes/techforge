@@ -14,9 +14,7 @@ async function registerUser({
 
   if (!created) throw Error("Email already exists!");
 
-  const user = userDoc.toJSON();
-
-  return { user };
+  return userDoc.toJSON();
 }
 
 export default registerUser;

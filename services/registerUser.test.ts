@@ -8,16 +8,14 @@ describe("service: register new user", () => {
     username: "testUser",
   };
   const createdUserMock = {
-    user: {
-      ...newUserMock,
-      bio: null,
-      createdAt: undefined,
-      following: false,
-      id: undefined,
-      image: null,
-      password: undefined,
-      updatedAt: undefined,
-    },
+    ...newUserMock,
+    bio: null,
+    createdAt: undefined,
+    following: false,
+    id: undefined,
+    image: null,
+    password: undefined,
+    updatedAt: undefined,
   };
 
   const findUserAndDelete = async ({ email }: typeof newUserMock) => {
