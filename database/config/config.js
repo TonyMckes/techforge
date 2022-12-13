@@ -1,26 +1,22 @@
-const { env } = process;
+/** @type {import('sequelize').Options} */
+const config = {
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOSTNAME,
+  dialect: process.env.DB_DIALECT || "postgres",
+  custom: process.env.CUSTOM,
+};
 
 module.exports = {
   development: {
-    username: env.DEV_DB_USERNAME,
-    password: env.DEV_DB_PASSWORD,
-    database: env.DEV_DB_NAME,
-    host: env.DEV_DB_HOSTNAME,
-    dialect: "postgres",
+    ...config,
   },
   test: {
-    username: env.TEST_DB_USERNAME,
-    password: env.TEST_DB_PASSWORD,
-    database: env.TEST_DB_NAME,
-    host: env.TEST_DB_HOSTNAME,
-    dialect: "postgres",
+    ...config,
+    logging: false,
   },
   production: {
-    username: env.PROD_DB_USERNAME,
-    password: env.PROD_DB_PASSWORD,
-    database: env.PROD_DB_NAME,
-    host: env.PROD_DB_HOSTNAME,
-    port: env.PROD_DB_PORT,
-    dialect: "postgres",
+    ...config,
   },
 };
