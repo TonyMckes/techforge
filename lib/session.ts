@@ -22,7 +22,7 @@ export type PlainUser<TOmitted> = Omit<
 >;
 declare module "iron-session" {
   interface IronSessionData {
-    user?: PlainUser<UserOmittedAttributes>;
+    user?: User;
     isLoggedIn: boolean;
   }
 }
