@@ -7,16 +7,6 @@ describe("service: register new user", () => {
     password: "123456",
     username: "testUser",
   };
-  const createdUserMock = {
-    ...newUserMock,
-    bio: null,
-    createdAt: undefined,
-    following: false,
-    id: undefined,
-    image: null,
-    password: undefined,
-    updatedAt: undefined,
-  };
 
   const findUserAndDelete = async ({ email }: typeof newUserMock) => {
     const userInDb = await User.findOne({
@@ -34,9 +24,9 @@ describe("service: register new user", () => {
     expect(typeof registerUser).toBe("function");
   });
 
-  it("should return a matching object", async () => {
+  it("should return an instance of User", async () => {
     const user = await registerUser(newUserMock);
-    expect(user).toMatchObject(createdUserMock);
+    expect(user).toBeInstanceOf(User);
   });
 
   it("should to throw if the email already exists", async () => {

@@ -1,5 +1,5 @@
+import { hash } from "bcrypt";
 import { User } from "database/models";
-import registerUser from "./registerUser";
 import userLogin from "./userLogin";
 
 describe("service: user login", () => {
@@ -16,17 +16,6 @@ describe("service: user login", () => {
     email: "not-existing@mail.error",
     password: "not-valid",
   };
-  const userMock = {
-    ...userCredentials,
-    username: "testUser",
-    bio: null,
-    createdAt: undefined,
-    following: false,
-    id: undefined,
-    image: null,
-    password: undefined,
-    updatedAt: undefined,
-  };
 
   const findUserAndDelete = async (email: string) => {
     const userInDb = await User.findOne({
@@ -36,7 +25,10 @@ describe("service: user login", () => {
     if (!userInDb) return;
     await userInDb.destroy();
   };
-
+  beforeAll(
+    async () =>
+      await User.create({ ...newUserMock, password: await hash("123456", 10) })
+  );
   afterAll(async () => await findUserAndDelete(userCredentials.email));
 
   it("should be a function", () => {
@@ -47,10 +39,8 @@ describe("service: user login", () => {
     await expect(userLogin(invalidCredentials)).rejects.toThrow();
   });
 
-  it("should return a User (matching object)", async () => {
-    await registerUser(newUserMock);
-
+  it("should return an instance of User", async () => {
     const user = await userLogin(userCredentials);
-    expect(user).toMatchObject(userMock);
+    expect(user).toBeInstanceOf(User);
   });
 });
