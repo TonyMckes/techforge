@@ -12,7 +12,7 @@ async function userLogin({ email, password }: UserLogin) {
   const isMatch = await compare(password, user.password);
   if (!isMatch) throw new Error("Wrong password!");
 
-  return user.toJSON();
+  return user;
 }
 
 export default userLogin;
