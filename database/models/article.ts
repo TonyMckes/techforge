@@ -30,26 +30,23 @@ import type {
 } from ".";
 
 export class Article extends Model<
-  InferAttributes<
-    Article,
-    { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
-  >,
+  InferAttributes<Article, { omit: "tagList" | "author" }>,
   InferCreationAttributes<
     Article,
     { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
   >
-  > {
+> {
   declare author?: NonAttribute<User>;
   declare body: string;
-  declare createdAt?: CreationOptional<Date>;
+  declare createdAt: CreationOptional<Date>;
   declare description: string;
-  declare favorited?: NonAttribute<boolean>;
-  declare favoritesCount?: NonAttribute<number>;
-  declare id?: CreationOptional<number>;
-    declare slug: string;
+  declare favorited?: boolean;
+  declare favoritesCount?: number;
+  declare id: CreationOptional<number>;
+  declare slug: string;
   declare tagList?: NonAttribute<string[] | Tag[]>;
-    declare title: string;
-  declare updatedAt?: CreationOptional<Date>;
+  declare title: string;
+  declare updatedAt: CreationOptional<Date>;
   declare userId?: ForeignKey<User["id"]>;
 
   // Authors
@@ -107,49 +104,52 @@ export class Article extends Model<
     // Authors
     this.belongsTo(User, { as: "author", foreignKey: "userId" });
 
-      // Comments
+    // Comments
     this.hasMany(Comment, {
       as: { plural: "comments", singular: "comment" },
       foreignKey: "articleId",
       onDelete: "cascade",
     });
 
-      // Tag list
-      this.belongsToMany(Tag, {
+    // Tag list
+    this.belongsToMany(Tag, {
       as: { plural: "tagList", singular: "tag" },
-        foreignKey: "articleId",
-        onDelete: "cascade", // FIXME: delete tags
+      foreignKey: "articleId",
+      onDelete: "cascade", // FIXME: delete tags
       through: "TagList",
       timestamps: false,
-      });
+    });
 
-      // Favorites
-      this.belongsToMany(User, {
+    // Favorites
+    this.belongsToMany(User, {
       as: { plural: "favorites", singular: "favorite" },
-        foreignKey: "articleId",
+      foreignKey: "articleId",
       through: "Favorites",
-        timestamps: false,
-      });
-    }
+      timestamps: false,
+    });
+  }
 
-    toJSON() {
-      return {
-        ...this.get(),
+  toJSON() {
+    return {
+      ...this.get(),
       favorited: false,
       favoritesCount: 0,
-        id: undefined,
-        userId: undefined,
-      };
-    }
+      id: undefined,
+      userId: undefined,
+    };
   }
+}
 
 const articleModel = (sequelize: ConnectionInstance) => {
   Article.init(
     {
-      body: DataTypes.TEXT,
-      description: DataTypes.TEXT,
-      slug: DataTypes.STRING,
-      title: DataTypes.STRING,
+      body: { type: DataTypes.TEXT, allowNull: false },
+      createdAt: DataTypes.DATE,
+      description: { type: DataTypes.TEXT, allowNull: false },
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+      slug: { type: DataTypes.STRING, allowNull: false },
+      title: { type: DataTypes.STRING, allowNull: false },
+      updatedAt: DataTypes.DATE,
     },
     {
       sequelize,

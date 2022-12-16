@@ -20,14 +20,14 @@ import {
 import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
 
 export class User extends Model<
-  InferAttributes<User, { omit: "followersCount" | "following" }>,
+  InferAttributes<User>,
   InferCreationAttributes<User, { omit: "followersCount" | "following" }>
 > {
   declare bio: string | null;
   declare createdAt: CreationOptional<Date>;
   declare email: string;
-  declare followersCount?: NonAttribute<number>;
-  declare following?: NonAttribute<boolean>;
+  declare followersCount?: number;
+  declare following?: boolean;
   declare id: CreationOptional<number>;
   declare image: string | null;
   declare password: string;
