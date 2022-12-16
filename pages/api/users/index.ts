@@ -1,6 +1,6 @@
 import { apiRouteWithSession } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
-import registerUser from "services/registerUser";
+import registerUser from "services/users/registerUser";
 
 export default apiRouteWithSession(usersRoute);
 
