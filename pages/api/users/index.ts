@@ -12,7 +12,7 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
     if (method === "POST") {
       const user = await registerUser(userData);
 
-      session.user = user;
+      session.user = user.toJSON();
       session.isLoggedIn = true;
       await session.save();
 
