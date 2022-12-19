@@ -40,18 +40,18 @@ export class Tag extends Model<
   declare setArticles: HasManySetAssociationsMixin<Article, number>;
 
   static associate({ Article }: AssociatesTypes) {
-      this.belongsToMany(Article, {
+    this.belongsToMany(Article, {
       as: { plural: "articles", singular: "article" },
-        foreignKey: "tagName",
+      foreignKey: "tagName",
       through: "TagList",
-        timestamps: false,
-      });
-    }
+      timestamps: false,
+    });
+  }
 
   toJSON(): NonAttribute<string> {
     return this.name;
-    }
   }
+}
 
 const tagModel = (sequelize: ConnectionInstance) => {
   Tag.init(
