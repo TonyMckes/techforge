@@ -10,6 +10,15 @@ async function articlesRoute(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
 
   try {
+    if (method === "GET") {
+      const { articles, articlesCount } = await getArticles({
+        user,
+        ...query,
+      });
+
+      return res.json({ articles, articlesCount });
+    }
+
     // Create article
     if (method === "POST") {
       const article = await createArticle({
