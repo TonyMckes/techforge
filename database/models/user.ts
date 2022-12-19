@@ -147,7 +147,6 @@ export class User extends Model<
       ...this.get(),
       createdAt: undefined,
       following: false,
-      id: undefined,
       password: undefined,
       updatedAt: undefined,
     };
