@@ -30,13 +30,13 @@ import type {
 } from ".";
 
 export class Article extends Model<
-  InferAttributes<Article, { omit: "tagList" | "author" }>,
+  InferAttributes<Article>,
   InferCreationAttributes<
     Article,
     { omit: "favorited" | "favoritesCount" | "tagList" | "author" }
   >
 > {
-  declare author?: NonAttribute<User>;
+  declare author?: User;
   declare body: string;
   declare createdAt: CreationOptional<Date>;
   declare description: string;
@@ -44,7 +44,7 @@ export class Article extends Model<
   declare favoritesCount?: number;
   declare id: CreationOptional<number>;
   declare slug: string;
-  declare tagList?: NonAttribute<string[] | Tag[]>;
+  declare tagList?: string[] | Tag[];
   declare title: string;
   declare updatedAt: CreationOptional<Date>;
   declare userId?: ForeignKey<User["id"]>;
