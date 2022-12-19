@@ -2,17 +2,24 @@ import { apiRouteWithSession } from "lib/session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import deleteArticle from "services/articles/deleteArticle";
 import getArticle from "services/articles/getArticle";
+import updateArticle from "services/articles/updateArticle";
 
 export default apiRouteWithSession(usersRoute);
 
 async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
+  const { method, body } = req;
   const { slug } = req.query;
   const { user } = req.session;
 
   try {
     if (method === "GET") {
       const article = await getArticle(slug as string, user);
+
+      return res.json({ article });
+    }
+
+    if (method === "PUT") {
+      const article = await updateArticle({ slug, ...body.article }, user);
 
       return res.json({ article });
     }
