@@ -17,6 +17,12 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
       return res.json({ article });
     }
 
+    if (method === "DELETE") {
+      await deleteArticle(slug as string, user);
+
+      return res.json({ message: { body: ["Article deleted successfully"] } });
+    }
+
     res.status(405).json("Method Not Allowed");
   } catch (error) {
     if (error instanceof Error) {
