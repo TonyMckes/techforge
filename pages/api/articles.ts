@@ -11,10 +11,7 @@ async function articlesRoute(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (method === "GET") {
-      const { articles, articlesCount } = await getArticles({
-        user,
-        ...query,
-      });
+      const { articles, articlesCount } = await getArticles(query, user);
 
       return res.json({ articles, articlesCount });
     }
@@ -31,6 +28,8 @@ async function articlesRoute(req: NextApiRequest, res: NextApiResponse) {
 
     return res.status(402).json("Method nod allowed!");
   } catch (error) {
-    return res.status(500).json(error.message);
+    if (error instanceof Error) {
+      return res.status(500).json({ errors: { body: [error.message] } });
+    }
   }
 }

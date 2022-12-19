@@ -1,21 +1,18 @@
 import { Article, Tag, User } from "database/models";
 import { appendFavorites, appendFollowers, slugify } from "lib/helpers";
+import { LoggedUser } from "lib/session";
 
 interface ArticleInput {
-  loggedUser: User;
   title: string;
   description: string;
   body: string;
   tagList: string[];
 }
 
-async function createArticle({
-  loggedUser,
-  body,
-  description,
-  tagList: tags,
-  title,
-}: ArticleInput) {
+async function createArticle(
+  { body, description, tagList: tags, title }: ArticleInput,
+  loggedUser: LoggedUser
+) {
   if (!loggedUser) throw new Error("not logged in");
   if (!description) throw new Error("FieldRequiredError");
   if (!body) throw new Error("FieldRequiredError");

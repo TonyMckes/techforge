@@ -1,23 +1,19 @@
 import { Article, User } from "database/models";
 import { appendFavorites, appendFollowers } from "lib/helpers";
+import { LoggedUser } from "lib/session";
 import { tagFilters, userFilters } from "./utils";
 
 // Single Article by slug
-async function getArticle({
-  slug,
-  loggedUser,
-}: {
-  slug: string;
-  loggedUser: User | null;
-}) {
+async function getArticle(slug: string, loggedUser?: LoggedUser) {
   const article = await Article.findOne({
     where: { slug: slug },
     include: [tagFilters, userFilters],
   });
   if (!article) throw new Error("NotFoundError");
 
-  await appendFollowers(article.author!, loggedUser);
-  await appendFavorites(article, loggedUser);
+  const user = await User.findOne({ where: { id: loggedUser?.id || null! } });
+  await appendFollowers(article.author!, user);
+  await appendFavorites(article, user);
 
   return article;
 }

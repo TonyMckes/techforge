@@ -1,26 +1,22 @@
 import { Article, User } from "database/models";
 import { appendFavorites, appendFollowers } from "lib/helpers";
+import { LoggedUser } from "lib/session";
 import { HasManyGetAssociationsMixinOptions } from "sequelize";
 import { tagFilters, userFilters } from "./utils";
 
-interface GetArticlesParams {
-  loggedUser: User | null;
-  author: string;
-  tag: string[];
-  favorited: boolean;
-  limit: number;
-  offset: number;
+interface QueryParams {
+  author?: string;
+  tag?: string;
+  favorited?: boolean;
+  limit?: number;
+  offset?: number;
 }
 
 //? All Articles - by Author/by Tag/Favorited by user
-async function getArticles({
-  loggedUser,
-  author,
-  tag,
-  favorited,
-  limit = 3,
-  offset = 0,
-}: GetArticlesParams): Promise<{ articles: Article[]; articlesCount: number }> {
+async function getArticles(
+  { author, tag, favorited, limit = 3, offset = 0 }: QueryParams,
+  loggedUser: LoggedUser | undefined
+): Promise<{ articles: Article[]; articlesCount: number }> {
   const searchOptions: HasManyGetAssociationsMixinOptions = {
     include: [
       { ...tagFilters, ...(tag && { where: { name: tag } }) },
@@ -45,10 +41,10 @@ async function getArticles({
 
     [articles, articlesCount] = [rows, count];
   }
-
+  const user = await User.findOne({ where: { id: loggedUser?.id } });
   for (let article of articles) {
-    await appendFollowers(article.author!, loggedUser);
-    await appendFavorites(article, loggedUser);
+    await appendFollowers(article.author!, user);
+    await appendFavorites(article, user);
   }
 
   return { articles, articlesCount };
