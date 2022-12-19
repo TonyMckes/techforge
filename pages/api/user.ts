@@ -20,7 +20,7 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
       if (!session.user) throw new Error("You need to login first!");
       const user = await updateUser(userData, session.user);
 
-      session.user = user;
+      session.user = user.toJSON();
       await session.save();
 
       return res.status(200).json({ user });

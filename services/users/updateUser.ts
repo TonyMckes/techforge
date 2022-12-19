@@ -1,10 +1,11 @@
 import { hash } from "bcrypt";
 import { User } from "database/models";
+import { LoggedUser } from "lib/session";
 import { CreationAttributes } from "sequelize";
 
 async function updateUser(
   userData: CreationAttributes<User>,
-  loggedUser: User
+  loggedUser: LoggedUser
 ) {
   const { password }: { password: string } = userData;
   const userInDb = await User.findOne({ where: { email: loggedUser.email } });

@@ -15,14 +15,15 @@ export const sessionOptions: IronSessionOptions = {
   },
 };
 
-type UserOmittedAttributes = "id" | "password" | "createdAt" | "updatedAt";
+type UserOmittedAttributes = "password" | "createdAt" | "updatedAt";
 export type PlainUser<TOmitted> = Omit<
   ReturnType<User["toJSON"]>,
   keyof TOmitted
 >;
+export type LoggedUser = PlainUser<UserOmittedAttributes>;
 declare module "iron-session" {
   interface IronSessionData {
-    user?: User;
+    user?: LoggedUser;
     isLoggedIn: boolean;
   }
 }

@@ -12,17 +12,17 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
     if (method === "POST") {
       const user = await userLogin(userData);
 
-      session.user = user;
+      session.user = user.toJSON();
       session.isLoggedIn = true;
       await session.save();
 
       return res.json({ user });
     }
+
+    res.status(405).json("Method Not Allowed");
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ errors: { body: [error.message] } });
     }
   }
-
-  res.status(405).json("Method Not Allowed");
 }
