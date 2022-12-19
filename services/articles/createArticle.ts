@@ -11,7 +11,7 @@ interface ArticleInput {
 
 async function createArticle(
   { body, description, tagList: tags, title }: ArticleInput,
-  loggedUser: LoggedUser
+  loggedUser: LoggedUser | undefined
 ) {
   if (!loggedUser) throw new Error("not logged in");
   if (!description) throw new Error("FieldRequiredError");

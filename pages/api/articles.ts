@@ -18,10 +18,7 @@ async function articlesRoute(req: NextApiRequest, res: NextApiResponse) {
 
     // Create article
     if (method === "POST") {
-      const article = await createArticle({
-        loggedUser: user,
-        ...body.article,
-      });
+      const article = await createArticle(body.article, user);
 
       return res.json({ article });
     }
