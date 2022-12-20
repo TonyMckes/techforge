@@ -1,4 +1,5 @@
 import {
+  Association,
   CreationOptional,
   DataTypes,
   ForeignKey,
@@ -12,11 +13,12 @@ import {
 import { Article, AssociatesTypes, ConnectionInstance, User } from ".";
 
 export class Comment extends Model<
-    InferAttributes<Comment>,
-    InferCreationAttributes<Comment>
-  > {
-  declare id?: CreationOptional<number>;
+  InferAttributes<Comment>,
+  InferCreationAttributes<Comment, { omit: "author" }>
+> {
+  declare id: CreationOptional<number>;
   declare body: string;
+  declare author?: User;
 
   declare articleId: ForeignKey<Article["id"]>;
   declare userId: ForeignKey<User["id"]>;
@@ -30,6 +32,12 @@ export class Comment extends Model<
   declare createAuthor: HasOneCreateAssociationMixin<User>;
   declare getAuthor: HasOneGetAssociationMixin<User>;
   declare setAuthor: HasOneSetAssociationMixin<User, number>;
+
+  declare static associations: {
+    author: Association<Comment, User>;
+    article: Association<Comment, Article>;
+  };
+
   static associate({ Article, User }: AssociatesTypes) {
     // Article
     this.belongsTo(Article, {
@@ -42,16 +50,16 @@ export class Comment extends Model<
       as: "author",
       foreignKey: "userId",
     });
-    }
-
-    toJSON() {
-      return {
-        ...this.get(),
-        articleId: undefined,
-        userId: undefined,
-      };
-    }
   }
+
+  toJSON() {
+    return {
+      ...this.get(),
+      articleId: undefined,
+      userId: undefined,
+    };
+  }
+}
 
 const commentModel = (sequelize: ConnectionInstance) => {
   Comment.init(
