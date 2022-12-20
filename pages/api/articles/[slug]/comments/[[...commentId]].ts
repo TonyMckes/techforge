@@ -1,6 +1,7 @@
 import { apiRouteWithSession } from "lib/session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import createComment from "services/comments/createComment";
+import getComments from "services/comments/getComments";
 
 export default apiRouteWithSession(usersRoute);
 
@@ -10,6 +11,12 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
   const { user } = req.session;
 
   try {
+    if (method === "GET") {
+      const comments = await getComments(slug as string, user);
+
+      return res.json({ comments });
+    }
+
     if (method === "POST") {
       const comment = await createComment({ slug, ...body.comment }, user);
 
