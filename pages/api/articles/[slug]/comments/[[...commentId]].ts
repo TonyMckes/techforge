@@ -1,6 +1,7 @@
 import { apiRouteWithSession } from "lib/session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import createComment from "services/comments/createComment";
+import deleteComment from "services/comments/deleteComment";
 import getComments from "services/comments/getComments";
 
 export default apiRouteWithSession(usersRoute);
@@ -21,6 +22,12 @@ async function usersRoute(req: NextApiRequest, res: NextApiResponse) {
       const comment = await createComment({ slug, ...body.comment }, user);
 
       return res.json({ comment });
+    }
+
+    if (method === "DELETE") {
+      await deleteComment(commentId?.toString() as string, user);
+
+      return res.json({ message: { body: ["Comment deleted successfully"] } });
     }
 
     res.status(405).json("Method Not Allowed");
