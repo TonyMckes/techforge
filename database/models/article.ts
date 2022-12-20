@@ -132,8 +132,6 @@ export class Article extends Model<
   toJSON() {
     return {
       ...this.get(),
-      favorited: false,
-      favoritesCount: 0,
       id: undefined,
       userId: undefined,
     };
