@@ -21,3 +21,15 @@ Then, start the development server
 While the server is running, you can open [http://localhost:3000](http://localhost:3000) with your browser to see the website.
 
 API endpoints can be accessed on [http://localhost:3000/api/](http://localhost:3000/api/).
+
+## Running Tests
+
+> You will need to add the environment variables to your `.env.test.local` or `.env.test` file, these will work for the test environment, references can be found in the [`.env.example`](.env.example) file.
+
+To run tests, run the following command
+
+```bash
+  npm run test
+  # or
+  npm test
+```
