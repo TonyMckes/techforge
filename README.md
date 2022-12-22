@@ -21,6 +21,7 @@ Then, start the development server
 While the server is running, you can open [http://localhost:3000](http://localhost:3000) with your browser to see the website.
 
 API endpoints can be accessed on [http://localhost:3000/api/](http://localhost:3000/api/).
+Available endpoints are listed [here](pages/api/README.md)
 
 ## Running Tests
 
