@@ -29,6 +29,8 @@ Request body example:
 
 Returns a User
 
+---
+
 ### Registration
 
 `POST /api/users`
@@ -49,6 +51,8 @@ Request body example:
 
 Returns a User
 
+---
+
 ### Get Current User
 
 `GET /api/user`
@@ -56,6 +60,8 @@ Returns a User
 - Authentication **required**
 
 Returns a User that's the current user
+
+---
 
 ### Update User
 
@@ -79,6 +85,8 @@ Accepted fields: `email`, `username`, `password`, `image`, `bio`
 
 Returns the User
 
+---
+
 ## Profiles
 
 ### Get Profile
@@ -86,6 +94,8 @@ Returns the User
 `GET /api/profiles/:username`
 
 Returns a Profile
+
+---
 
 ## Followers
 
@@ -97,6 +107,8 @@ Returns a Profile
 
 Returns a Profile
 
+---
+
 ### Unfollow user
 
 `DELETE /api/profiles/:username/follow`
@@ -104,6 +116,8 @@ Returns a Profile
 - Authentication **required**
 
 Returns a Profile
+
+---
 
 ## Articles
 
@@ -123,6 +137,8 @@ Query Parameters:
 
 Returns multiple articles, ordered by most recent first
 
+---
+
 ### Feed Articles
 
 `GET /api/articles/feed`
@@ -133,11 +149,15 @@ Returns multiple articles, ordered by most recent first
 
 Returns multiple articles created by followed users, ordered by most recent first.
 
+---
+
 ### Get Article
 
 `GET /api/articles/:slug`
 
 Returns a single article
+
+---
 
 ### Create Article
 
@@ -164,6 +184,8 @@ Optional fields: `tagList` as an array of Strings
 
 Returns an Article
 
+---
+
 ### Update Article
 
 `PUT /api/articles/:slug`
@@ -186,11 +208,15 @@ The `slug` also gets updated when the `title` is changed
 
 Returns the updated Article
 
+---
+
 ### Delete Article
 
 `DELETE /api/articles/:slug`
 
 Authentication **required**
+
+---
 
 ## Comments
 
@@ -214,17 +240,23 @@ Request body example:
 
 Returns the created Comment
 
+---
+
 ### Get Comments from an Article
 
 `GET /api/articles/:slug/comments`
 
 Returns multiple comments
 
+---
+
 ### Delete Comment
 
 `DELETE /api/articles/:slug/comments/:id`
 
 Authentication **required**
+
+---
 
 ## Favorites
 
@@ -236,6 +268,8 @@ Authentication **required**
 
 Returns the Article
 
+---
+
 ### Unfavorite Article
 
 `DELETE /api/articles/:slug/favorite`
@@ -243,6 +277,8 @@ Returns the Article
 - Authentication **required**
 
 Returns the Article
+
+---
 
 ## Tags
 
