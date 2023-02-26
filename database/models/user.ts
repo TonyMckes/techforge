@@ -1,7 +1,6 @@
-import {
+import type {
   Association,
   CreationOptional,
-  DataTypes,
   HasManyAddAssociationMixin,
   HasManyAddAssociationsMixin,
   HasManyCountAssociationsMixin,
@@ -14,10 +13,10 @@ import {
   HasManySetAssociationsMixin,
   InferAttributes,
   InferCreationAttributes,
-  Model,
-  NonAttribute,
+  Sequelize,
 } from "sequelize";
-import { Article, AssociatesTypes, Comment, ConnectionInstance } from ".";
+import { DataTypes, Model } from "sequelize";
+import type { Article, AssociatesTypes, Comment } from ".";
 
 export class User extends Model<
   InferAttributes<User>,
@@ -152,7 +151,7 @@ export class User extends Model<
   }
 }
 
-const userModel = (sequelize: ConnectionInstance) => {
+const userModel = (sequelize: Sequelize) => {
   User.init(
     {
       bio: { type: DataTypes.TEXT, allowNull: true },

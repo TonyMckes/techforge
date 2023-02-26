@@ -1,5 +1,4 @@
-import {
-  DataTypes,
+import type {
   ForeignKey,
   HasManyAddAssociationMixin,
   HasManyAddAssociationsMixin,
@@ -13,10 +12,11 @@ import {
   HasManySetAssociationsMixin,
   InferAttributes,
   InferCreationAttributes,
-  Model,
   NonAttribute,
+  Sequelize,
 } from "sequelize";
-import type { Article, AssociatesTypes, ConnectionInstance } from ".";
+import { DataTypes, Model } from "sequelize";
+import type { Article, AssociatesTypes } from ".";
 
 export class Tag extends Model<
   InferAttributes<Tag>,
@@ -53,7 +53,7 @@ export class Tag extends Model<
   }
 }
 
-const tagModel = (sequelize: ConnectionInstance) => {
+const tagModel = (sequelize: Sequelize) => {
   Tag.init(
     {
       name: {

@@ -1,16 +1,16 @@
-import {
+import type {
   Association,
   CreationOptional,
-  DataTypes,
   ForeignKey,
   HasOneCreateAssociationMixin,
   HasOneGetAssociationMixin,
   HasOneSetAssociationMixin,
   InferAttributes,
   InferCreationAttributes,
-  Model,
+  Sequelize,
 } from "sequelize";
-import { Article, AssociatesTypes, ConnectionInstance, User } from ".";
+import { DataTypes, Model } from "sequelize";
+import type { Article, AssociatesTypes, User } from ".";
 
 export class Comment extends Model<
   InferAttributes<Comment>,
@@ -61,7 +61,7 @@ export class Comment extends Model<
   }
 }
 
-const commentModel = (sequelize: ConnectionInstance) => {
+const commentModel = (sequelize: Sequelize) => {
   Comment.init(
     {
       id: {
