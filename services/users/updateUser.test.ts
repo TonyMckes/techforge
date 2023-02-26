@@ -1,21 +1,22 @@
-import { User } from "database/models";
+import { sequelize, User } from "database/models";
 import updateUser from "./updateUser";
 
-const userMock = {
-  email: "test@mail.com",
-  password: "123456",
-  username: "testUser",
-};
-const updatedUserMock = {
-  ...userMock,
-  username: "updatedTestUser",
-};
-
 describe("service: update user", () => {
-  beforeAll(async () => await User.create(userMock));
-  afterAll(
-    async () => await User.destroy({ where: { email: userMock.email } })
-  );
+  const userMock = {
+    email: "test@mail.com",
+    password: "123456",
+    username: "testUser",
+  };
+  const updatedUserMock = {
+    ...userMock,
+    username: "updatedTestUser",
+  };
+
+  beforeAll(async () => {
+    await sequelize.sync({ force: true });
+    await User.create(userMock);
+  });
+  afterAll(async () => await sequelize.close());
 
   it("should be a function", () => {
     expect(typeof updateUser).toBe("function");
@@ -35,7 +36,7 @@ describe("service: update user", () => {
 
   it("should throw if the email doesn't exist", async () => {
     await expect(
-      updateUser(updatedUserMock, "invalidTest@mail.com")
+      updateUser(updatedUserMock, { email: "invalidTest@mail.com" })
     ).rejects.toThrow();
   });
 });

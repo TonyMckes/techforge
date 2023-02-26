@@ -1,4 +1,4 @@
-import { User } from "database/models";
+import { sequelize, User } from "database/models";
 import registerUser from "./registerUser";
 
 describe("service: register new user", () => {
@@ -8,17 +8,8 @@ describe("service: register new user", () => {
     username: "testUser",
   };
 
-  const findUserAndDelete = async ({ email }: typeof newUserMock) => {
-    const userInDb = await User.findOne({
-      where: { email },
-    });
-
-    if (!userInDb) return;
-    await userInDb.destroy();
-  };
-
-  beforeAll(async () => await findUserAndDelete(newUserMock));
-  afterAll(async () => await findUserAndDelete(newUserMock));
+  beforeAll(async () => await sequelize.sync({ force: true }));
+  afterAll(async () => await sequelize.close());
 
   it("should be a function", () => {
     expect(typeof registerUser).toBe("function");
